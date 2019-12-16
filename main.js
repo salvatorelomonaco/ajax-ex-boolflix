@@ -3,21 +3,20 @@ $(document).ready(function() {
     var templateFunction = Handlebars.compile($('#template').html());
 
     $('button').click(function () {
-        var letturaRicerca = $('.header-right input').val();
-        searchMovie(letturaRicerca);
+        searchMovie();
     });
 
     $('.search').keypress(function(event) {
     // il pulsante invia equivale a 13
-        var letturaRicerca = $('.header-right input').val();
         if(event.which == 13 ){
-            searchMovie(letturaRicerca);
-        }
+            searchMovie();
+        };
     });
 
 
     // funzione per ricercare i film
     function searchMovie(ricercaUtente) {
+        var ricercaUtente = $('.header-right input').val();
         $.ajax({
             // uso url della api di themoviedb
             'url': 'https://api.themoviedb.org/3/search/movie',
@@ -32,17 +31,15 @@ $(document).ready(function() {
             },
             'method': 'GET',
             'success': function(data) {
-                // vado a prendere il riultato di quello che restituisce la api con la dot notation
-                var film = data.results
                 // richiamo la funzione delle informazione del film
-                infoMovie(film);
+                infoMovie(data.results);
             },
             // in caso di errore
             'error': function() {
                 alert('Error');
             }
         });
-    }
+    };
 
     // creo una funzione che mi va a leggere le info che voglio dalla mia api
     function infoMovie(movie) {
@@ -56,8 +53,8 @@ $(document).ready(function() {
             var vote = (Math.ceil(movie[i].vote_average)) / 2;
             // info da sostituire nel mio handlebars template
             var info = {
-                'title':title,
-                'original-title': 'Titolo originale: ' +  originalTitle,
+                'title': title,
+                'original-title': originalTitle,
                 'language': language,
                 'vote': vote
             };
@@ -65,6 +62,6 @@ $(document).ready(function() {
             var html = templateFunction(info);
             //  le appendo al container
             $('.film-container').append(html);
-        }
-    }
+        };
+    };
 });
