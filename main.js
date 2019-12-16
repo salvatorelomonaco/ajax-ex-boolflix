@@ -3,6 +3,8 @@ $(document).ready(function() {
     var templateFunction = Handlebars.compile($('#template').html());
 
     $('button').click(function () {
+        // uso .hide per resettare la ricerca ogni volta
+        $('.film').hide();
         searchMovie();
         searchSeriesTV();
     });
@@ -10,6 +12,7 @@ $(document).ready(function() {
     $('.search').keypress(function(event) {
     // il pulsante invia equivale a 13
         if(event.which == 13 ){
+            $('.film').hide();
             searchMovie();
             searchSeriesTV();
         };
@@ -38,7 +41,7 @@ $(document).ready(function() {
             },
             // in caso di errore
             'error': function() {
-                alert('Error');
+                alert('Error')
             }
         });
     };
@@ -60,13 +63,13 @@ $(document).ready(function() {
             },
             'method': 'GET',
             'success': function(data) {
-                // richiamo la funzione delle informazione del film
+                // richiamo la funzione delle informazione della serie tv
                 infoSeriesTv(data.results);
                 console.log(data.results);
             },
             // in caso di errore
             'error': function() {
-                alert('Error');
+                alert('Error')
             }
         });
     };
@@ -76,26 +79,29 @@ $(document).ready(function() {
         // uso un ciclo for visto che mi verrà restituita un array di oggetti
         for (var i = 0; i < movie.length; i++) {
             // creo le varie variabili per andare a prendere i dati di cui ho bisogno
-            var title = movie[i].title;
-            var originalTitle = movie[i].original_title;
-            var language = movie[i].original_language;
-            // arrotondo per eccesso il numero della votazione e diviso per due per fare la votazione da 0 a 5
-            var vote = (Math.ceil(movie[i].vote_average)) / 2;
-            var img = movie[i].poster_path;
-            var description = movie[i].overview;
-            // info da sostituire nel mio handlebars template
-            var info = {
-                'title': title,
-                'original-title': originalTitle,
-                'language': language,
-                'vote': vote,
-                'poster': img,
-                'overview': description
-            };
-            // creo una variabile che mi compili le info con una funzione
-            var html = templateFunction(info);
-            //  le appendo al container
-            $('.film-container').append(html);
+            // if (movie[i].poster_path == null){
+            //     $('.film').hide();
+            // } else {
+                var title = movie[i].title;
+                var originalTitle = movie[i].original_title;
+                var language = movie[i].original_language;
+                // arrotondo per eccesso il numero della votazione e diviso per due per fare la votazione da 0 a 5
+                var vote = (Math.ceil(movie[i].vote_average)) / 2;
+                var img = movie[i].poster_path;
+                var description = movie[i].overview;
+                // info da sostituire nel mio handlebars template
+                var info = {
+                    'title': title,
+                    'original-title': originalTitle,
+                    'language': language,
+                    'vote': vote,
+                    'poster': img,
+                    'overview': description
+                };
+                // creo una variabile che mi compili le info con una funzione
+                var html = templateFunction(info);
+                //  le appendo al container
+                $('.film-container').append(html);
         };
     };
 
