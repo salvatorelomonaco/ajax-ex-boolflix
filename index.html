@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+        <script src="main.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="style.css">
+        <title>Boolflix</title>
+    </head>
+    <body>
+        <header>
+            <div class="header-left">
+
+            </div>
+            <div class="header-right">
+                <input type="text" name="" value="">
+                <button type="button" name="button">Cerca</button>
+            </div>
+        </header>
+        <main>
+            <div class="film-container"></div>
+        </main>
+        <!-- Handlebars template -->
+        <script id="template" type="text/x-handlebars-template">
+            <div class="film">
+                <div class="title">{{ title }}</div>
+                <div class="title">{{ original-title }}</div>
+                <div class="title">{{ language }}</div>
+                <div class="title">{{ vote }}</div>
+            </div>
+        </script>
+    </body>
+</html>
