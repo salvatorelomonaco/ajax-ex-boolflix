@@ -62,6 +62,7 @@ $(document).ready(function() {
             'success': function(data) {
                 // richiamo la funzione delle informazione del film
                 infoSeriesTv(data.results);
+                console.log(data.results);
             },
             // in caso di errore
             'error': function() {
@@ -80,12 +81,16 @@ $(document).ready(function() {
             var language = movie[i].original_language;
             // arrotondo per eccesso il numero della votazione e diviso per due per fare la votazione da 0 a 5
             var vote = (Math.ceil(movie[i].vote_average)) / 2;
+            var img = movie[i].poster_path;
+            var description = movie[i].overview;
             // info da sostituire nel mio handlebars template
             var info = {
                 'title': title,
                 'original-title': originalTitle,
                 'language': language,
-                'vote': vote
+                'vote': vote,
+                'poster': img,
+                'overview': description
             };
             // creo una variabile che mi compili le info con una funzione
             var html = templateFunction(info);
@@ -104,12 +109,16 @@ $(document).ready(function() {
             var language = seriesTv[i].original_language;
             // arrotondo per eccesso il numero della votazione e diviso per due per fare la votazione da 0 a 5
             var vote = (Math.ceil(seriesTv[i].vote_average)) / 2;
+            var img = seriesTv[i].poster_path;
+            var description = seriesTv[i].overview;
             // info da sostituire nel mio handlebars template
             var info = {
                 'title': title,
                 'original-title': originalTitle,
                 'language': language,
-                'vote': vote
+                'vote': vote,
+                'poster': img,
+                'overview': description
             };
             // creo una variabile che mi compili le info con una funzione
             var html = templateFunction(info);

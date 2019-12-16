@@ -27,17 +27,25 @@
         <!-- Handlebars template -->
         <script id="template" type="text/x-handlebars-template">
             <div class="film">
-                <div class="title">
-                    <span>Titolo:</span> {{ title }}
+                <div class="poster">
+                    <img src="https://image.tmdb.org/t/p/w342{{ poster }}" alt"poster img">
                 </div>
-                <div class="original-title">
-                    <span>Titolo originale:</span> {{ original-title }}
-                </div>
-                <div class="lang">
-                    <span>Lingua:</span> {{ language }}
-                </div>
-                <div class="rating">
-                    <span>Voto:</span> {{ vote }}
+                <div class="info">
+                    <div class="title">
+                        <span>Titolo:</span> {{ title }}
+                    </div>
+                    <div class="original-title">
+                        <span>Titolo originale:</span> {{ original-title }}
+                    </div>
+                    <div class="lang">
+                        <span>Lingua:</span> {{ language }}
+                    </div>
+                    <div class="rating">
+                        <span>Voto:</span> {{ vote }}
+                    </div>
+                    <div class="description">
+                        <span>Overview:</span> {{ overview }}
+                    </div>
                 </div>
             </div>
         </script>

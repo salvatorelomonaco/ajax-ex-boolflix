@@ -1,4 +1,4 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif;}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; cursor: default;}
 
 body {
     background-color: black;
@@ -13,6 +13,7 @@ header {
     align-items: center;
     padding: 0 30px;
     background-color: black;
+    z-index: 100;
 }
 
 header .header-left h1 {
@@ -30,24 +31,39 @@ main {
 }
 
 main .film-container {
-    width: 1000px;
     height: 100%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .film {
-    background-color: black;
     border: 2px solid white;
     color: white;
-    width: 220px;
-    height: 250px;
-    margin: 15px;
-    padding: 10px;
+    margin: 15px 0;
     display: flex;
-    flex-direction: column;
+    position: relative;
 }
 
 .film span {
     font-weight: 600;
+}
+
+.film img {
+    height: 100%;
+    width: 100%;
+}
+
+.film .info {
+    padding: 10px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.9);
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.film:hover .info  {
+    display: block;
 }
