@@ -12,6 +12,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 0 30px;
+    background-color: black;
 }
 
 header .header-left h1 {
@@ -22,24 +23,23 @@ header .header-left h1 {
 
 main {
     padding-top: 100px;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     display: flex;
     justify-content: center;
 }
 
 main .film-container {
-    width: 1200px;
+    width: 1000px;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
 }
 
 .film {
     background-color: white;
     width: 220px;
-    max-height: max-content;
+    height: 150px;
     margin: 15px;
     padding: 10px;
     display: flex;

@@ -4,57 +4,67 @@ $(document).ready(function() {
 
     $('button').click(function () {
         var letturaRicerca = $('.header-right input').val();
-        console.log(letturaRicerca);
+        searchMovie(letturaRicerca);
+    });
+
+    $('.search').keypress(function(event) {
+    // il pulsante invia equivale a 13
+        var letturaRicerca = $('.header-right input').val();
+        if(event.which == 13 ){
+            searchMovie(letturaRicerca);
+        }
+    });
+
+
+    // funzione per ricercare i film
+    function searchMovie(ricercaUtente) {
         $.ajax({
+            // uso url della api di themoviedb
             'url': 'https://api.themoviedb.org/3/search/movie',
+            // allego questi dati all'url
             'data': {
+                // la mia chiave api
                 'api_key': '8f20fb07349b7328a5884d56f17b612d',
-                'query': letturaRicerca,
+                // il query, che sarebbe il titolo del film, in questo caso quelo che scrive l'utente
+                'query': ricercaUtente,
+                // la lingua italiana
                 'language': 'it-IT'
             },
             'method': 'GET',
             'success': function(data) {
+                // vado a prendere il riultato di quello che restituisce la api con la dot notation
                 var film = data.results
-                for (var i = 0; i < film.length; i++) {
-                    var title = film[i].title;
-                    var originalTitle = film[i].original_title;
-                    var language = film[i].original_language;
-                    var vote = film[i].vote_average;
-                    var info = {
-                        'title': title,
-                        'original-title': originalTitle,
-                        'language': language,
-                        'vote': vote
-                    };
-
-                    var html = templateFunction(info);
-
-                    $('.film-container').append(html);
-                }
+                // richiamo la funzione delle informazione del film
+                infoMovie(film);
             },
+            // in caso di errore
             'error': function() {
                 alert('Error');
             }
         });
-    });
-});
+    }
 
-//
-// function printMovie(movie, info) {
-//     for (var i = 0; i < movie.length; i++) {
-//         var title = movie[i].title;
-//         var originalTitle = movie[i].original_title;
-//         var language = movie[i].original_language;
-//         var vote = movie[i].vote_average;
-//         var info = {
-//             'title': title,
-//             'original-title': originalTitle,
-//             'language': language,
-//             'vote': vote
-//         };
-//
-//         var html = templateFunction(info);
-//
-//         $('.film-container').append(html);
-//     }
-// }
+    // creo una funzione che mi va a leggere le info che voglio dalla mia api
+    function infoMovie(movie) {
+        // uso un ciclo for visto che mi verrà restituita un array di oggetti
+        for (var i = 0; i < movie.length; i++) {
+            // creo le varie variabili per andare a prendere i dati di cui ho bisogno
+            var title = movie[i].title;
+            var originalTitle = movie[i].original_title;
+            var language = movie[i].original_language;
+            // arrotondo per eccesso il numero della votazione e diviso per due per fare la votazione da 0 a 5
+            var vote = (Math.ceil(movie[i].vote_average)) / 2;
+            // info da sostituire nel mio handlebars template
+            var info = {
+                'title': title,
+                'original-title': originalTitle,
+                'language': language,
+                'vote': vote
+            };
+            // creo una variabile che mi compili le info con una funzione
+            var html = templateFunction(info);
+            //  le appendo al container
+            $('.film-container').append(html);
+        }
+    }
+});
