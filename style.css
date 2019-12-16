@@ -37,12 +37,17 @@ main .film-container {
 }
 
 .film {
-    background-color: white;
+    background-color: black;
+    border: 2px solid white;
+    color: white;
     width: 220px;
     height: 150px;
     margin: 15px;
     padding: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+}
+
+.film span {
+    font-weight: 600;
 }

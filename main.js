@@ -56,8 +56,8 @@ $(document).ready(function() {
             var vote = (Math.ceil(movie[i].vote_average)) / 2;
             // info da sostituire nel mio handlebars template
             var info = {
-                'title': title,
-                'original-title': originalTitle,
+                'title':title,
+                'original-title': 'Titolo originale: ' +  originalTitle,
                 'language': language,
                 'vote': vote
             };
