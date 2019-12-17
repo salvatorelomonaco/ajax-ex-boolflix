@@ -44,13 +44,6 @@ header .header-left img {
     border: 0;
 }
 
-/* .header-right input {
-    background-color: grey;
-    border: 0;
-    border-bottom: 5px solid red;
-    height: 31px;
-} */
-
 main {
     padding-top: 120px;
     width: 100%;
@@ -76,22 +69,11 @@ main .film-container {
     align-content: flex-start;
 }
 
-/* .logo {
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-} */
-
 .film {
     box-shadow: 0px 0px 2px 2px rgba(148,148,148,0.5);
     color: white;
     margin: 15px;
+    width: 342px;
     display: flex;
     position: relative;
     cursor: pointer;
@@ -118,4 +100,8 @@ main .film-container {
 
 .film:hover .info  {
     display: block;
+}
+
+.poster {
+    width: 100%;
 }
