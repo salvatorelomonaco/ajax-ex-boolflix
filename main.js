@@ -80,34 +80,36 @@ $(document).ready(function() {
 
     // creo una funzione per estrarre le informazione dei film dall'api
     function infoShow(show) {
-        // uso un ciclo for visto che mi verrà restituita un array di oggetti
         var templateFunction = Handlebars.compile($('#template').html());
+        // uso un ciclo for visto che mi verrà restituita un array di oggetti
         for (var i = 0; i < show.length; i++) {
-            // creo le varie variabili per andare a prendere i dati di cui ho bisogno
-            var titleMovie = show[i].title;
-            var titleSerieTV = show[i].name;
-            var originalTitleMovie = show[i].original_title;
-            var originalTitleSerieTV = show[i].original_name;
-            var language = show[i].original_language;
-            if (language == 'en') {
-                var language = '<img src="https://www.countryflags.io/us/flat/24.png">';
-            } else if (language == 'it') {
-                var language = '<img src="https://www.countryflags.io/it/flat/24.png">';
-            } else if (language == 'es') {
-                var language = '<img src="https://www.countryflags.io/es/flat/24.png">';
-            } else if (language == 'de') {
-                var language = '<img src="https://www.countryflags.io/de/flat/24.png">';
-            } else if (language == 'fr') {
-                var language = '<img src="https://www.countryflags.io/fr/flat/24.png">';
-            } else if (language == 'ja') {
-                var language = '<img src="https://www.countryflags.io/jp/flat/24.png">';
-            }
-            // arrotondo per eccesso il numero della votazione e diviso per due per fare la votazione da 0 a 5
-            var voto = Math.ceil((show[i].vote_average) / 2);
-            console.log(voto);
-            var stellaPiena = '<i class="fas fa-star"></i>';
-            var stellaVuota = '<i class="far fa-star"></i>';
-            var stelle = '';
+            if (show[i].poster_path != null) {
+                // creo le varie variabili per andare a prendere i dati di cui ho bisogno
+                var titleMovie = show[i].title;
+                var titleSerieTV = show[i].name;
+                var originalTitleMovie = show[i].original_title;
+                var originalTitleSerieTV = show[i].original_name;
+                var language = show[i].original_language;
+                // aggiungo i vari casi delle lingue per sostituire con le bandiere
+                if (language == 'en') {
+                    var language = '<img src="https://www.countryflags.io/us/flat/24.png">';
+                } else if (language == 'it') {
+                    var language = '<img src="https://www.countryflags.io/it/flat/24.png">';
+                } else if (language == 'es') {
+                    var language = '<img src="https://www.countryflags.io/es/flat/24.png">';
+                } else if (language == 'de') {
+                    var language = '<img src="https://www.countryflags.io/de/flat/24.png">';
+                } else if (language == 'fr') {
+                    var language = '<img src="https://www.countryflags.io/fr/flat/24.png">';
+                } else if (language == 'ja') {
+                    var language = '<img src="https://www.countryflags.io/jp/flat/24.png">';
+                }
+                // arrotondo per eccesso il numero della votazione e diviso per due per fare la votazione da 0 a 5
+                var voto = Math.ceil((show[i].vote_average) / 2);
+                console.log(voto);
+                var stellaPiena = '<i class="fas fa-star"></i>';
+                var stellaVuota = '<i class="far fa-star"></i>';
+                var stelle = '';
                 for (var j = 0; j < 5; j++) {
                     if (j < voto) {
                         stelle = stelle + stellaPiena;
@@ -115,21 +117,24 @@ $(document).ready(function() {
                         stelle = stelle + stellaVuota;
                     }
                 };
-            var img = show[i].poster_path;
-            var description = show[i].overview;
-            // info da sostituire nel mio handlebars template
-            var info = {
-                'title': titleMovie || titleSerieTV,
-                'original-title': originalTitleMovie || originalTitleSerieTV,
-                'language': language,
-                'vote': stelle,
-                'poster': img,
-                'overview': description
-            };
-            // creo una variabile che mi compili le info con una funzione
-            var html = templateFunction(info);
-            //  le appendo al container
-            $('.film-container').append(html);
+                var img = show[i].poster_path;
+                var description = show[i].overview;
+                // info da sostituire nel mio handlebars template
+                var info = {
+                    'title': titleMovie || titleSerieTV,
+                    'original-title': originalTitleMovie || originalTitleSerieTV,
+                    'language': language,
+                    'vote': stelle,
+                    'poster': img,
+                    'overview': description
+                };
+                // creo una variabile che mi compili le info con una funzione
+                var html = templateFunction(info);
+                //  le appendo al container
+                $('.film-container').append(html);
+            } else {
+                !$('.film-container').append(html);
+            }
         };
     };
 });
