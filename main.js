@@ -39,7 +39,7 @@ $(document).ready(function() {
                 'method': 'GET',
                 'success': function(data) {
                     // richiamo la funzione delle informazione del film
-                    infoMovie(data.results);
+                    infoShow(data.results);
                     $('.header-right input').val('');
                 },
                 // in caso di errore
@@ -64,7 +64,7 @@ $(document).ready(function() {
                 'success': function(data) {
                     // richiamo la funzione delle informazione della serie tv
                     var dataFilm = data.results;
-                    infoSeriesTv(dataFilm);
+                    infoShow(dataFilm);
                     $('.header-right input').val('');
                 },
                 // in caso di errore
@@ -79,16 +79,31 @@ $(document).ready(function() {
     };
 
     // creo una funzione per estrarre le informazione dei film dall'api
-    function infoMovie(movie) {
+    function infoShow(show) {
         // uso un ciclo for visto che mi verrà restituita un array di oggetti
         var templateFunction = Handlebars.compile($('#template').html());
-        for (var i = 0; i < movie.length; i++) {
+        for (var i = 0; i < show.length; i++) {
             // creo le varie variabili per andare a prendere i dati di cui ho bisogno
-            var title = movie[i].title;
-            var originalTitle = movie[i].original_title;
-            var language = movie[i].original_language;
+            var titleMovie = show[i].title;
+            var titleSerieTV = show[i].name;
+            var originalTitleMovie = show[i].original_title;
+            var originalTitleSerieTV = show[i].original_name;
+            var language = show[i].original_language;
+            if (language == 'en') {
+                var language = '<img src="https://www.countryflags.io/us/flat/24.png">';
+            } else if (language == 'it') {
+                var language = '<img src="https://www.countryflags.io/it/flat/24.png">';
+            } else if (language == 'es') {
+                var language = '<img src="https://www.countryflags.io/es/flat/24.png">';
+            } else if (language == 'de') {
+                var language = '<img src="https://www.countryflags.io/de/flat/24.png">';
+            } else if (language == 'fr') {
+                var language = '<img src="https://www.countryflags.io/fr/flat/24.png">';
+            } else if (language == 'ja') {
+                var language = '<img src="https://www.countryflags.io/jp/flat/24.png">';
+            }
             // arrotondo per eccesso il numero della votazione e diviso per due per fare la votazione da 0 a 5
-            var voto = Math.ceil((movie[i].vote_average) / 2);
+            var voto = Math.ceil((show[i].vote_average) / 2);
             console.log(voto);
             var stellaPiena = '<i class="fas fa-star"></i>';
             var stellaVuota = '<i class="far fa-star"></i>';
@@ -100,53 +115,12 @@ $(document).ready(function() {
                         stelle = stelle + stellaVuota;
                     }
                 };
-            var img = movie[i].poster_path;
-            var description = movie[i].overview;
+            var img = show[i].poster_path;
+            var description = show[i].overview;
             // info da sostituire nel mio handlebars template
             var info = {
-                'title': title,
-                'original-title': originalTitle,
-                'language': language,
-                'vote': stelle,
-                'poster': img,
-                'overview': description
-            };
-            // creo una variabile che mi compili le info con una funzione
-            var html = templateFunction(info);
-            //  le appendo al container
-            $('.film-container').append(html);
-        };
-    };
-
-    // creo una funzione per estrarre le informazione delle serieTv dall'api
-    function infoSeriesTv(serieTv) {
-        var templateFunction = Handlebars.compile($('#template').html());
-        // uso un ciclo for visto che mi verrà restituita un array di oggetti
-        for (var i = 0; i < serieTv.length; i++) {
-            // creo le varie variabili per andare a prendere i dati di cui ho bisogno
-            var title = serieTv[i].name;
-            var originalTitle = serieTv[i].original_name;
-            var language = serieTv[i].original_language;
-            // arrotondo per eccesso il numero della votazione e diviso per due per fare la votazione da 0 a 5
-            var voto = Math.ceil((serieTv[i].vote_average) / 2);
-            console.log(voto);
-            var stellaPiena = '<i class="fas fa-star"></i>';
-            var stellaVuota = '<i class="far fa-star"></i>';
-            var stelle = '';
-            console.log(stelle);
-            for (var j = 0; j < 5; j++) {
-                if (j < voto) {
-                    stelle = stelle + stellaPiena;
-                } else {
-                    stelle = stelle + stellaVuota;
-                }
-            };
-            var img = serieTv[i].poster_path;
-            var description = serieTv[i].overview;
-            // info da sostituire nel mio handlebars template
-            var info = {
-                'title': title,
-                'original-title': originalTitle,
+                'title': titleMovie || titleSerieTV,
+                'original-title': originalTitleMovie || originalTitleSerieTV,
                 'language': language,
                 'vote': stelle,
                 'poster': img,
@@ -160,7 +134,43 @@ $(document).ready(function() {
     };
 });
 
-
-// devo trasformare il voto in stelle
-// ho già il Voto
-// dobbiamo trasformare il numero massimo di stelline in  icone
+// creo una funzione per estrarre le informazione delle serieTv dall'api
+//     function infoSeriesTv(serieTv) {
+//         var templateFunction = Handlebars.compile($('#template').html());
+//         // uso un ciclo for visto che mi verrà restituita un array di oggetti
+//         for (var i = 0; i < serieTv.length; i++) {
+//             // creo le varie variabili per andare a prendere i dati di cui ho bisogno
+//             var title = serieTv[i].name;
+//             var originalTitle = serieTv[i].original_name;
+//             var language = serieTv[i].original_language;
+//             // arrotondo per eccesso il numero della votazione e diviso per due per fare la votazione da 0 a 5
+//             var voto = Math.ceil((serieTv[i].vote_average) / 2);
+//             console.log(voto);
+//             var stellaPiena = '<i class="fas fa-star"></i>';
+//             var stellaVuota = '<i class="far fa-star"></i>';
+//             var stelle = '';
+//             console.log(stelle);
+//             for (var j = 0; j < 5; j++) {
+//                 if (j < voto) {
+//                     stelle = stelle + stellaPiena;
+//                 } else {
+//                     stelle = stelle + stellaVuota;
+//                 }
+//             };
+//             var img = serieTv[i].poster_path;
+//             var description = serieTv[i].overview;
+//             // info da sostituire nel mio handlebars template
+//             var info = {
+//                 'title': title,
+//                 'original-title': originalTitle,
+//                 'language': language,
+//                 'vote': stelle,
+//                 'poster': img,
+//                 'overview': description
+//             };
+//             // creo una variabile che mi compili le info con una funzione
+//             var html = templateFunction(info);
+//             //  le appendo al container
+//             $('.film-container').append(html);
+//         };
+//     };

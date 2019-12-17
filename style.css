@@ -83,7 +83,7 @@ main .film-container {
     font-weight: 600;
 }
 
-.film img {
+.poster img {
     height: 100%;
     width: 100%;
 }
@@ -108,4 +108,13 @@ main .film-container {
 
 .poster {
     width: 100%;
+}
+
+.lang {
+    display: flex;
+    align-items: center;
+}
+
+.lang img {
+    margin-left: 5px;
 }
