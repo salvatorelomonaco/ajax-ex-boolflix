@@ -102,6 +102,10 @@ main .film-container {
     display: block;
 }
 
+.info div {
+    margin: 10px 0;
+}
+
 .poster {
     width: 100%;
 }
