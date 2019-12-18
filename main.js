@@ -1,28 +1,35 @@
 $(document).ready(function() {
 
-
-
     $('button').click(function () {
-        $('.film-container').empty();
-        var ricercaUtente = $('.header-right input').val();
+        $('.layout').hide();
+        newSearch();
         // uso .hide per resettare la ricerca ogni volta
+        var ricercaUtente = $('.header-right input').val();
+        $('main p').addClass('active');
         searchMovieSeriesTv(ricercaUtente);
     });
 
     $('.search').keypress(function(event) {
-        $('.film-container').empty();
+        newSearch();
         var ricercaUtente = $('.header-right input').val();
     // il pulsante invia equivale a 13
         if(event.which == 13 ){
+            $('.layout').hide();
+            $('main p').addClass('active');
             searchMovieSeriesTv(ricercaUtente);
         };
     });
+
+    function newSearch() {
+        $('.film-container').empty();
+        $('.serieTv-container').empty();
+    }
 
     // funzione per ricercare i film e serieTv
     function searchMovieSeriesTv(ricerca) {
         // se la ricerca non è vuota
         if (ricerca != 0) {
-            $('main p').text('Risultato ricerca: "' + ricerca +'"')
+            $('main p:first-child').text('Risultato ricerca: "' + ricerca +'"')
             // creo una variabile per ajax film
             $.ajax({
                 // uso url della api di themoviedb
@@ -62,9 +69,9 @@ $(document).ready(function() {
                 },
                 'method': 'GET',
                 'success': function(data) {
+                    console.log(data.results);
                     // richiamo la funzione delle informazione della serie tv
-                    var dataFilm = data.results;
-                    infoShow(dataFilm);
+                    infoShow(data.results);
                     $('.header-right input').val('');
                 },
                 // in caso di errore
@@ -74,7 +81,7 @@ $(document).ready(function() {
             });
         // se la ricerca è vuota faccio comparire questo alert
         } else {
-            $('main p').text('Inserisci un titolo di un film o serie tv.');
+            $('main p:first-child').text('Inserisci un titolo di un film o serie tv.');
         }
     };
 
@@ -83,57 +90,72 @@ $(document).ready(function() {
         var templateFunction = Handlebars.compile($('#template').html());
         // uso un ciclo for visto che mi verrà restituita un array di oggetti
         for (var i = 0; i < show.length; i++) {
-            if (show[i].poster_path != null) {
-                // creo le varie variabili per andare a prendere i dati di cui ho bisogno
-                var titleMovie = show[i].title;
-                var titleSerieTV = show[i].name;
-                var originalTitleMovie = show[i].original_title;
-                var originalTitleSerieTV = show[i].original_name;
-                var language = show[i].original_language;
-                // aggiungo i vari casi delle lingue per sostituire con le bandiere
-                if (language == 'en') {
+            // creo le varie variabili per andare a prendere i dati di cui ho bisogno
+            var titleMovie = show[i].title;
+            var titleSerieTV = show[i].name;
+            var originalTitleMovie = show[i].original_title;
+            var originalTitleSerieTV = show[i].original_name;
+            var language = show[i].original_language;
+            // aggiungo i vari casi delle lingue per sostituire con le bandiere
+            switch (language) {
+                case 'en':
                     var language = '<img src="https://www.countryflags.io/us/flat/24.png">';
-                } else if (language == 'it') {
+                    break;
+                case 'it':
                     var language = '<img src="https://www.countryflags.io/it/flat/24.png">';
-                } else if (language == 'es') {
+                    break;
+                case 'es':
                     var language = '<img src="https://www.countryflags.io/es/flat/24.png">';
-                } else if (language == 'de') {
+                    break;
+                case 'de':
                     var language = '<img src="https://www.countryflags.io/de/flat/24.png">';
-                } else if (language == 'fr') {
+                    break;
+                case 'fr':
                     var language = '<img src="https://www.countryflags.io/fr/flat/24.png">';
-                } else if (language == 'ja') {
+                    break;
+                case 'ja':
                     var language = '<img src="https://www.countryflags.io/jp/flat/24.png">';
+                    break;
+                default:
+                    var language = show[i].original_language;
+            }
+            // arrotondo per eccesso il numero della votazione e diviso per due per fare la votazione da 0 a 5
+            var voto = Math.ceil((show[i].vote_average) / 2);
+            var stellaPiena = '<i class="fas fa-star"></i>';
+            var stellaVuota = '<i class="far fa-star"></i>';
+            var stelle = '';
+            for (var j = 0; j < 5; j++) {
+                if (j < voto) {
+                    stelle = stelle + stellaPiena;
+                } else {
+                    stelle = stelle + stellaVuota;
                 }
-                // arrotondo per eccesso il numero della votazione e diviso per due per fare la votazione da 0 a 5
-                var voto = Math.ceil((show[i].vote_average) / 2);
-                console.log(voto);
-                var stellaPiena = '<i class="fas fa-star"></i>';
-                var stellaVuota = '<i class="far fa-star"></i>';
-                var stelle = '';
-                for (var j = 0; j < 5; j++) {
-                    if (j < voto) {
-                        stelle = stelle + stellaPiena;
-                    } else {
-                        stelle = stelle + stellaVuota;
-                    }
-                };
-                var img = show[i].poster_path;
-                var description = show[i].overview;
-                // info da sostituire nel mio handlebars template
-                var info = {
-                    'title': titleMovie || titleSerieTV,
-                    'original-title': originalTitleMovie || originalTitleSerieTV,
-                    'language': language,
-                    'vote': stelle,
-                    'poster': img,
-                    'overview': description
-                };
-                // creo una variabile che mi compili le info con una funzione
-                var html = templateFunction(info);
-                //  le appendo al container
+            };
+            var img = 'https://image.tmdb.org/t/p/w342' + show[i].poster_path;
+            if (show[i].poster_path == null) {
+                img = 'https://www.wildhareboca.com/wp-content/uploads/sites/310/2018/03/image-not-available.jpg';
+            }
+            var description = show[i].overview;
+            if (description.length == 0) {
+                description = 'No description available.'
+            }
+            // info da sostituire nel mio handlebars template
+            var info = {
+                'title': titleMovie || titleSerieTV,
+                'original-title': originalTitleMovie || originalTitleSerieTV,
+                'language': language,
+                'vote': stelle,
+                'poster': img,
+                'overview': description
+            };
+            // creo una variabile che mi compili le info con una funzione
+            var html = templateFunction(info);
+            //  le appendo al container
+            if (titleMovie && originalTitleMovie) {
                 $('.film-container').append(html);
+
             } else {
-                !$('.film-container').append(html);
+                $('.serieTv-container').append(html);
             }
         };
     };

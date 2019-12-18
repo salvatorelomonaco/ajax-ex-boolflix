@@ -31,15 +31,24 @@
                 <button type="button" name="button">Cerca</button>
             </div>
         </header>
+        <div class="layout">
+            <img src="https://fontmeme.com/permalink/191218/64f8b8273ff2a8d6ef4cb5673c746a6d.png" alt="">
+            <h1>Guarda i tuoi film e serie TV preferite!</h1>
+        </div>
         <main>
             <p></p>
-            <div class="film-container"></div>
+            <p>SerieTv</p>
+            <div class="serieTv-container">
+            </div>
+            <p>Film</p>
+            <div class="film-container">
+            </div>
         </main>
         <!-- Handlebars template -->
         <script id="template" type="text/x-handlebars-template">
             <div class="film">
                 <div class="poster">
-                    <img src="https://image.tmdb.org/t/p/w342{{ poster }}" alt"poster img">
+                    <img src="{{ poster }}" alt"poster img">
                 </div>
                 <div class="info">
                     <div class="title">
