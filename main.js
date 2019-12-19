@@ -45,8 +45,12 @@ $(document).ready(function() {
                 },
                 'method': 'GET',
                 'success': function(data) {
-                    // richiamo la funzione delle informazione del film
-                    infoShow(data.results);
+                    if(data.total_results > 0) {
+                        // richiamo la funzione delle informazione del film
+                        infoShow(data.results);
+                    } else {
+                        $('.film-container').append('Nessun risultato trovato per film.');
+                    }
                     $('.header-right input').val('');
                 },
                 // in caso di errore
@@ -69,9 +73,12 @@ $(document).ready(function() {
                 },
                 'method': 'GET',
                 'success': function(data) {
-                    console.log(data.results);
-                    // richiamo la funzione delle informazione della serie tv
-                    infoShow(data.results);
+                    if(data.total_results > 0) {
+                        // richiamo la funzione delle informazione dele serie tv
+                        infoShow(data.results);
+                    } else {
+                        $('.serieTv-container').append('Nessun risultaro trovato per serieTv.');
+                    }
                     $('.header-right input').val('');
                 },
                 // in caso di errore
