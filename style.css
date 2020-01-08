@@ -10,7 +10,7 @@ html::-webkit-scrollbar {
 }
 
 html::-webkit-scrollbar-track {
-    background-color: rgb(220,220,220);
+    background-color: rgba(220,220,220);
 }
 
 html::-webkit-scrollbar-thumb {
@@ -154,7 +154,7 @@ main .film-container {
 }
 
 .info::-webkit-scrollbar-track {
-    background-color: rgb(220,220,220);
+    background-color: rgba(250,250,250,0.8);
 }
 
 .info::-webkit-scrollbar-thumb {
@@ -181,6 +181,10 @@ main .film-container {
 
 .lang img {
     margin-left: 5px;
+}
+
+#genere {
+    width: max-content;
 }
 
 @media screen and (max-width: 1048px) {

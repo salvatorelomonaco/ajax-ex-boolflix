@@ -21,14 +21,19 @@
                         <li>Serie TV</li>
                         <li>Film</li>
                         <li>Originali</li>
-                        <li>Aggiunti di recente</li>
-                        <li>La mia lista</li>
                     </ul>
                 </nav>
             </div>
             <div class="header-right">
                 <input type="text" class="search" name="" value="">
                 <button type="button" name="button">Cerca</button>
+                <select class="lingua">
+                    <option value="it-IT">IT</option>
+                    <option value="en-EN">EN</option>
+                    <option value="es-ES">ES</option>
+                    <option value="fr-Fr">FR</option>
+                    <option value="de-DE">DE</option>
+                </select>
             </div>
         </header>
         <div class="layout">
@@ -36,6 +41,17 @@
             <h1>Guarda i tuoi film e serie TV preferite!</h1>
         </div>
         <main>
+            <select id="genere">
+                <option value="">Seleziona genere</option>
+                <option value="action">Action & Adventure</option>
+                <option value="family">Family</option>
+                <option value="crime">Crime</option>
+                <option value="drama">Drama</option>
+                <option value="animation">Animation</option>
+                <option value="horror">Horror</option>
+                <option value="documentary">Documentary</option>
+                <option value="comedy">Comedy</option>
+            </select>
             <p></p>
             <p class="category">SerieTv</p>
             <div class="serieTv-container">
@@ -46,7 +62,7 @@
         </main>
         <!-- Handlebars template -->
         <script id="template" type="text/x-handlebars-template">
-            <div class="film">
+            <div class="film" data-id={{id}} data-genere={{genre}}>
                 <div class="poster">
                     <img src="{{ poster }}" alt"poster img">
                 </div>
@@ -62,6 +78,9 @@
                     </div>
                     <div class="rating">
                         <span>Voto:</span> {{{ vote }}}
+                    </div>
+                    <div class="genre">
+                        <span>Genere:</span> {{ genre }}
                     </div>
                     <div class="description">
                         <span>Overview:</span> {{ overview }}
